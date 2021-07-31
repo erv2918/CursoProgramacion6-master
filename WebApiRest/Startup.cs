@@ -26,8 +26,16 @@ namespace WebApiRest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
+            services.AddDIContainer();
+            services.AddControllers().AddJsonOptions(option =>
+            {
+                option.JsonSerializerOptions.DictionaryKeyPolicy = null;
+                option.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
+            services.AddCors( options => 
+            {
+                options.AddDefaultPolicy(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiRest", Version = "v1" });
@@ -44,6 +52,7 @@ namespace WebApiRest
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApiRest v1"));
             }
 
+            app.UseCors();
             app.UseHttpsRedirection();
 
             app.UseRouting();
