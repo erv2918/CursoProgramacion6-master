@@ -30,7 +30,7 @@ namespace WebApiRest.Controllers
             catch (Exception)
             {
 
-                return new UsuariosEntity() { Code};
+                return new UsuariosEntity() { CodeError=ex.HResult,MsgError=ex.Message};
             }
         }
     }

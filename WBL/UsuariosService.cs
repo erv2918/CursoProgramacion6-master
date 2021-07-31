@@ -11,8 +11,8 @@ namespace WBL
 {
     public interface IUsuariosService
     {
-        Task<DBEntity> Create(UsuariosEntity entity);
-        Task<IEnumerable<UsuariosEntity>> Login(UsuariosEntity entity);
+        Task<UsuariosEntity> Login(UsuariosEntity entity);
+        Task<DBEntity> Registrar(UsuariosEntity entity);
     }
 
     public class UsuariosService : IUsuariosService
@@ -24,11 +24,11 @@ namespace WBL
             sql = _sql;
         }
 
-        public async Task<IEnumerable<UsuariosEntity>> Login(UsuariosEntity entity)
+        public async Task<UsuariosEntity> Login(UsuariosEntity entity)
         {
             try
             {
-                var result = sql.QueryAsync<UsuariosEntity>("Login", new
+                var result = sql.QueryFirstAsync<UsuariosEntity>("Login", new
                 {
 
                     entity.Usuario,
@@ -48,7 +48,7 @@ namespace WBL
 
         }
 
-        public async Task<DBEntity> Create(UsuariosEntity entity)
+        public async Task<DBEntity> Registrar(UsuariosEntity entity)
         {
             try
             {
@@ -69,6 +69,3 @@ namespace WBL
 
 
         }
-    }
-
-}
